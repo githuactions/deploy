@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: npm install
+        run:  npm install
 
       - name: Deploy & Start Server via SSH
         uses: garygrossgarten/github-action-scp@release
@@ -31,7 +31,7 @@ jobs:
             cd ~/hello-node
 
             # Pull latest code from GitHub
-            git clone https://github.com/YOUR_USERNAME/hello-node.git .
+            git clone https://github.com/githuactions/mygithubactions.git .
             npm install
 
             # Kill any previous Node app (simple way)

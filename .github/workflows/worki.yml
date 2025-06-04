@@ -1,0 +1,41 @@
+
+name: Build & Deploy Node.js App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy & Start Server via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo apt update -y
+            sudo apt install -y nodejs npm
+            mkdir -p ~/hello-node
+            rm -rf ~/hello-node/*
+            cd ~/hello-node
+
+            # Pull latest code from GitHub
+            git clone https://github.com/YOUR_USERNAME/hello-node.git .
+            npm install
+
+            # Kill any previous Node app (simple way)
+            pkill -f "node server.js" || true
+
+            # Start the server
+            nohup npm start > output.log 2>&1 &

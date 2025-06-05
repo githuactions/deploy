@@ -41,7 +41,7 @@ jobs:
             #            nohup npm start > output.log 2>&1 &
             
             # 3. Set up SSH agent with the private key
-            - name: Set up SSH agent with private key
+           script: | - name: Set up SSH agent with private key
               run: |
                   mkdir -p ~/.ssh
                   echo "${{ env.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa

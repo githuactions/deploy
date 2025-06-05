@@ -17,25 +17,42 @@ jobs:
       - name: Install dependencies
         run:  npm install
 
-      - name: Deploy & Start Server via SSH
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          #      - name: Deploy & Start Server via SSH
+          #        uses: garygrossgarten/github-action-ssh@release
+          #        with:
+          #          host: ${{ secrets.EC2_HOST }}
+          #          username: ${{ secrets.EC2_USER }}
+          #key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             sudo apt update -y
-            sudo apt install -y nodejs npm
-            mkdir -p ~/hello-node
-            rm -rf ~/hello-node/*
-            cd ~/hello-node
+            #            sudo apt install -y nodejs npm
+            #            mkdir -p ~/hello-node
+            #            rm -rf ~/hello-node/*
+            #            cd ~/hello-node
 
             # Pull latest code from GitHub
-            git clone https://github.com/githuactions/mygithubactions.git .
-            npm install
+            #            git clone https://github.com/githuactions/mygithubactions.git .
+            #            npm install
 
             # Kill any previous Node app (simple way)
-            pkill -f "node server.js" || true
+            #            pkill -f "node server.js" || true
 
             # Start the server
-            nohup npm start > output.log 2>&1 &
+            #            nohup npm start > output.log 2>&1 &
+            
+            # 3. Set up SSH agent with the private key
+            - name: Set up SSH agent with private key
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "${{ env.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+                  eval $(ssh-agent -s)
+                  ssh-add ~/.ssh/id_rsa
+                  ssh-keyscan -H ${{ env.EC2_HOST }} >> ~/.ssh/known_hosts
+
+                  # Debugging: Check the content of the known_hosts file and SSH keys
+                  cat ~/.ssh/known_hosts
+                  cat ~/.ssh/id_rsa
+
+                  # Debugging: Try to SSH into the EC2 instance to see if it connects
+                  ssh -v -o StrictHostKeyChecking=no ${{ env.EC2_USER }}@${{ env.EC2_HOST }} 'echo "SSH connection successful!"'

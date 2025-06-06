@@ -1,0 +1,29 @@
+
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          sudo su
+          mkdir hello-node
+          pkill node || true
+          cd ~/hello-node || git clone https://github.com/yourusername/hello-node.git ~/hello-node && cd ~/hello-node
+          git pull origin main
+          pm2 restart server.js || pm2 start server.js
+

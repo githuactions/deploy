@@ -25,23 +25,22 @@ jobs:
     - name: Start app with PM2
       run:  pm2 start server.js --name my-app
          
-    - name: Set up SSH and connect to EC2
+    - name: Set up SSH agent and test connection
       run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.EC2_SSH_KEY }}" | tr -d '\r' | tee ~/.ssh/id_rsa > /dev/null
-        chmod 700 ~/.ssh
-        chmod 600 ~/.ssh/authorized_keys
-        chmod 600 ~/.ssh/id_rsa
-        
-        eval "$(ssh-agent -s)"
-        ssh-add ~/.ssh/id_rsa
-
-        # Add host to known_hosts to prevent prompt
-        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
-    
-        # Debug: Attempt SSH
-        ssh -v -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "echo '✅ SSH connection successful!'"
+          mkdir -p ~/.ssh
       
+          # Write the PRIVATE key from your secret into id_rsa:
+          echo "${{ secrets.EC2_SSH_KEY }}" | tr -d '\r' | tee ~/.ssh/id_rsa > /dev/null
+          chmod 600 ~/.ssh/id_rsa
+      
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
+      
+          # Trust the host (so SSH won’t prompt for confirmation):
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+      
+          # Test connection (replace 'ubuntu' with your actual SSH user):
+          ssh -v -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "echo '✅ SSH connection OK'"
 
 
     

@@ -15,6 +15,10 @@ jobs:
     - name: install npm
       run: |
          sudo apt install nodejs -y
+         
+    - name: Install dependencies
+      run: npm install
+     
 
     #- name: Deploy to EC2
     #  uses: appleboy/ssh-action@v1.0.0

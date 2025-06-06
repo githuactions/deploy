@@ -18,7 +18,13 @@ jobs:
          
     - name: Install dependencies
       run: npm install
-     
+
+    - name: Install PM2 globally
+      run: npm install -g pm2
+
+    - name: Start app with PM2
+      run: pm2 start server.js --name my-app
+
 
     #- name: Deploy to EC2
     #  uses: appleboy/ssh-action@v1.0.0

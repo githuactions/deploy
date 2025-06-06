@@ -29,7 +29,8 @@ jobs:
       #uses: appleboy/ssh-action@v1.0.0
       run: |
         sudo su -c "echo 'Running as root'"
-        #sudo mkdir ~/.ssh 
+        sudo mkdir -p ~/.ssh
+        
         #echo "${{ secrets.EC2_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
         #chmod 600 ~/.ssh/id_rsa
 

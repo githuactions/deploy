@@ -27,7 +27,7 @@ jobs:
 
     - name: Set up SSH and connect to EC2
       run: |
-        mkdir -p ~/.ssh
+        sudo mkdir -p ~/.ssh
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         eval "$(ssh-agent -s)"

@@ -26,4 +26,4 @@ jobs:
 
     - name: Start app with PM2
       run: 
-        sudo pm2 restart server.js --name my-app
+        sudo pm2 stop all && pm2 restart all --name my-app

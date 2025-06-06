@@ -26,7 +26,7 @@ jobs:
       run:  pm2 start server.js --name my-app
          
     - name: Set up SSH agent and test connection
-      uses: appleboy/ssh-action@v1.0.0
+      #uses: appleboy/ssh-action@v1.0.0
       run: |
         sudo su -c "echo 'Running as root'"
         #sudo mkdir ~/.ssh 

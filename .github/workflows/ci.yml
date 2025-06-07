@@ -38,5 +38,5 @@ jobs:
 
     - name: Start app with PM2
       run: 
-        cd /home/ubuntu/deploy
+        cd deploy
         sudo pm2 stop all && pm2 restart server.js

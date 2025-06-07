@@ -26,6 +26,7 @@ jobs:
           
     - name: install npm
       run: |
+         cd /home/ubuntu/deploy
          sudo apt install nodejs -y
          
     - name: Install dependencies

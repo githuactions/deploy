@@ -45,12 +45,13 @@ jobs:
     - name: Start app with PM2
       run: |
        cd /home/ubuntu/deploy
+
         if pm2 list | grep -q 'online'; then
-        echo "PM2 process found, restarting all..."
-        sudo pm2 restart all
-       else
-        echo "No PM2 processes found, starting server.js..."
-        sudo pm2 start server.js --name my-app
-       fi
+          echo "PM2 process found, restarting all..."
+          sudo pm2 restart all || true
+        else
+          echo "No PM2 processes found, starting server.js..."
+          sudo pm2 start server.js --name my-app
+        fi
 
 

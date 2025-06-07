@@ -12,7 +12,13 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-
+    
+    - name: Manually clone into /home/ubuntu
+      run: |
+          sudo rm -rf /home/ubuntu/${{ github.event.repository.name }}
+          git clone https://github.com/${{ github.repository }} /home/ubuntu/${{ github.event.repository.name }}
+   
+      
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
@@ -26,7 +32,6 @@ jobs:
           
     - name: install npm
       run: |
-         cd /home/ubuntu/deploy
          sudo apt install nodejs -y
          
     - name: Install dependencies

@@ -43,7 +43,6 @@ jobs:
     - name: Install PM2 globally
       run: sudo npm install -g pm2 -y
 
-
     - name: Start app with PM2
       run: 
-        sudo pm2 stop all && pm2 restart all --name my-app
+        sudo pm2 stop all && pm2 restart server.js

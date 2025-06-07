@@ -26,7 +26,7 @@ jobs:
           
     - name: install npm
       run: |
-         cd /home/ubuntu/
+         cd /home/ubuntu/deploy
          sudo apt install nodejs -y
          
     - name: Install dependencies
@@ -35,7 +35,6 @@ jobs:
 
     - name: Install PM2 globally
       run:  |
-         cd deploy
          sudo npm install -g pm2 -y
 
     - name: Start app with PM2

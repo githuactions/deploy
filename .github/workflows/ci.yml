@@ -34,9 +34,10 @@ jobs:
          sudo apt install npm -y
 
     - name: Install PM2 globally
-      run: sudo npm install -g pm2 -y
+      run:  |
+         cd deploy
+         sudo npm install -g pm2 -y
 
     - name: Start app with PM2
       run: 
-        cd deploy
         sudo pm2 stop all && pm2 restart server.js
